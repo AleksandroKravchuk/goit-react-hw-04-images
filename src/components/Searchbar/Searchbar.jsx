@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Notify } from 'notiflix';
 import { BiSearch } from 'react-icons/bi';
@@ -9,45 +9,41 @@ import {
   SearchFormInput,
 } from './Searchbar.styled';
 
-class Searchbar extends React.Component {
-  state = {
-    search: '',
-  };
+const Searchbar = ({ onSubmit }) => {
+  const [search, setSearch] = useState('');
 
-  onAddInfo = evt => {
+  const onAddInfo = evt => {
     const { value } = evt.target;
-    this.setState({ search: value });
+    setSearch(value);
   };
-  hendelSubmit = evt => {
+  const hendelSubmit = evt => {
     evt.preventDefault();
-    const { search } = this.state;
+
     if (search.trim() === '') {
       return Notify.warning('Please enter name foto');
     }
-    this.props.onSubmit(search);
-    this.setState({ search: '' });
+    onSubmit(search);
+    setSearch('');
   };
-  render() {
-    const { search } = this.state;
-    return (
-      <SearchbarSection>
-        <SearchForm onSubmit={this.hendelSubmit}>
-          <SearchFormButton type="submit">
-            <BiSearch />
-          </SearchFormButton>
-          <SearchFormInput
-            value={search}
-            onChange={this.onAddInfo}
-            type="text"
-            autocomplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          ></SearchFormInput>
-        </SearchForm>
-      </SearchbarSection>
-    );
-  }
-}
+
+  return (
+    <SearchbarSection>
+      <SearchForm onSubmit={hendelSubmit}>
+        <SearchFormButton type="submit">
+          <BiSearch />
+        </SearchFormButton>
+        <SearchFormInput
+          value={search}
+          onChange={onAddInfo}
+          type="text"
+          autocomplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        ></SearchFormInput>
+      </SearchForm>
+    </SearchbarSection>
+  );
+};
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
