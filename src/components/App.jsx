@@ -21,57 +21,26 @@ const App = () => {
   const [perPages, setperPages] = useState(true);
 
   useEffect(() => {
-    apiData.query = searcName.trim();
-    apiData.setAddNewPage(page);
-    setloading(true);
-    apiData
-      .fetchImages()
-      .then(({ hits, totalHits }) => {
-        setfoto(prevState => [...prevState, ...hits]);
-        settotalHits(totalHits);
+    if (searcName !== '') {
+      apiData.query = searcName.trim();
+      apiData.setAddNewPage(page);
+      setloading(true);
+      apiData
+        .fetchImages()
+        .then(({ hits, totalHits }) => {
+          setfoto(prevState => [...prevState, ...hits]);
+          settotalHits(totalHits);
 
-        if (totalHits === 0) {
-          Notify.failure(
-            'Sorry, there are no images matching your search query. Please try again.'
-          );
-        }
-      })
-      .catch(error => Notify.failure('Ooooops somthing went wrong'))
-      .finally(() => setloading(false));
-  }, [page, searcName, foto]);
-  // componentDidUpdate(prevProps, prevState) {
-  //   // const { totalHits, foto } = this.state;
-  //   const prevPage = prevState.page;
-  //   const prevFoto = prevState.searchName;
-  //   const currentPage = this.state.page;
-  //   const currentFoto = this.state.searchName;
-  //   if (prevFoto !== currentFoto || prevPage !== currentPage) {
-  //     apiData.query = currentFoto.trim();
-  //     apiData.setAddNewPage(currentPage);
-
-  //     this.setState({ loading: true });
-  //     apiData
-  //       .fetchImages()
-  //       .then(({ hits, totalHits }) => {
-  //         this.setState(prevState => ({
-  //           foto: [...prevState.foto, ...hits],
-  //           totalHits: totalHits,
-  //         }));
-  //         if (totalHits === 0) {
-  //           Notify.failure(
-  //             'Sorry, there are no images matching your search query. Please try again.'
-  //           );
-  //         }
-  //       })
-  //       .catch(error => Notify.failure('Ooooops somthing went wrong'))
-  //       .finally(() => this.setState({ loading: false }));
-  //   }
-  //   // if (foto.length >= totalHits && foto.length !== 0) {
-  //   //   Notify.warning(
-  //   //     "We're sorry, but you've reached the end of search results."
-  //   //   );
-  //   // }
-  // }
+          if (totalHits === 0) {
+            Notify.failure(
+              'Sorry, there are no images matching your search query. Please try again.'
+            );
+          }
+        })
+        .catch(error => Notify.failure('Ooooops somthing went wrong'))
+        .finally(() => setloading(false));
+    }
+  }, [page, searcName]);
 
   const onSubmitName = searchName => {
     setSearchName(searchName);
