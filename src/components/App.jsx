@@ -73,7 +73,7 @@ const App = () => {
     <AppStyle>
       <Searchbar onSubmit={onSubmitName}></Searchbar>
 
-      {foto !== [] && (
+      {foto && (
         <ImageGallery fotoArray={foto} modalOpen={toggleModal}>
           {' '}
         </ImageGallery>
