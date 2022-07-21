@@ -30,7 +30,6 @@ const App = () => {
         .then(({ hits, totalHits }) => {
           setfoto(prevState => [...prevState, ...hits]);
           settotalHits(totalHits);
-
           if (totalHits === 0) {
             Notify.failure(
               'Sorry, there are no images matching your search query. Please try again.'
